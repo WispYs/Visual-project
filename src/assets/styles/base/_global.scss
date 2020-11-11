@@ -1,0 +1,29 @@
+@import './variable';
+
+body {
+	margin: 0;
+  padding: 0;
+  // background-color: $gray-lighter;
+  background-color: #fff;
+  color: $black-light;
+  font-size: $font-size-medium;
+  font-family: $font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+}
+.ld_left {
+  float: left;
+}
+.ld_right {
+  float: right;
+}
+.clearfix {
+  zoom: 1;
+  &:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
