@@ -334,6 +334,6 @@
   @import '~styles/base/variable';
   @import '~styles/mixins/clearfix';
   @import '~styles/pages/index';
-  @import '~styles/adaptive';
+  // @import '~styles/adaptive';
   
 </style>

@@ -129,8 +129,9 @@
 	</div>
 </template>
 <script>
-	import rem from '@/services/rem';
-	import format from '@/services/format';
+	import rem 				from '@/services/rem';
+	import format 		from '@/services/format';
+	import api        from '@/api/api';
 	export default {
 		data() {
 			return {
@@ -157,8 +158,13 @@
 						time: '2020-10-02'
 					},
 				],
-				newsScrollTimer: null		// 新闻滚动定时器
+				newsScrollTimer: null,		// 新闻滚动定时器
+				equipmentInfo: {},
 			}
+		},
+		created() {
+			this.newsScrollUp();
+			this.__fetchEquipmentInfo();
 		},
 		mounted() {
 			this.drawLine();
@@ -177,23 +183,42 @@
 				revenueChart.resize();
 			})
 		},
-		created() {
-			this.newsScrollUp();
-		},
 		computed: {
 			newsListTop() {
 				return -this.activeListIndex * 0.3 + 'rem';
 			}
 		},
 		methods: {
+			__fetchEquipmentInfo() {
+				let data = {
+					page: 1,
+					count: 2,
+					type: 'video'
+				};
+        api.fetchEquipmentInfo(data)
+          .then(rep => {
+            rep.result.forEach((it) => {
+            	for(let key in it) {
+            		if(key != 'name' && key != 'text' && key != 'passtime') {
+            			delete it[key]
+            		}
+            	}
+            })
+            this.equipmentInfo = rep.result;
+            console.log(this.equipmentInfo)
+          })
+          .catch(err => console.log('err'))
+			},
+			// 当前时间
 			getCurrentTime() {
 				let timer = setInterval(() => {
 					this.currentTime = format.getDateTime(new Date().getTime());
 				}, 1000);
 			},
+			// 新闻资讯滚动
 			newsScrollUp() {
 				this.newsScrollTimer = setInterval(() => {
-					console.log(this.activeListIndex)
+					// console.log(this.activeListIndex)
 	        if (this.activeListIndex < this.newsList.length) {
 	          this.activeListIndex += 1;
 	        }else {
@@ -209,6 +234,7 @@
 	    scrollStart () {
 	      this.newsScrollUp();
 	    },
+	    // ECharts
 			drawLine () {
 				// 车间收入产出占比
 				let pieChart = this.$echarts.init(this.$refs.pieChart);
