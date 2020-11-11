@@ -148,7 +148,9 @@
 			this.__fetchEquipmentInfo();
 		},
 		mounted() {
-			this.drawLine();
+			this.$nextTick(() => {
+	      this.drawLine();
+	    });
 			this.getCurrentTime();
 			window.addEventListener('resize',() => {
 				let pieChart = this.$echarts.init(this.$refs.pieChart);
@@ -181,7 +183,7 @@
             rep.result.forEach((it) => {
             	for(let key in it) {
             		if(key != 'name' && key != 'text' && key != 'passtime') {
-            			delete it[key]
+            			delete it[key];
             		}
             	}
             })

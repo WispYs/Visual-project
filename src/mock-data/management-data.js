@@ -26,5 +26,9 @@ export default {
 		p_time2: 26,
 		p_time3: 54,
 		humidity: 12,
-	}
+		h_time1: 1,
+		h_time2: 12,
+		h_time3: 39
+	},
+	
 }
