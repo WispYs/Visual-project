@@ -55,8 +55,8 @@
 								:style="{ top: newsListTop }" 
 								@mouseenter="scrollEnd()" 
 								@mouseleave="scrollStart()">
-								<li v-for="item in newsList"><em>{{item.title}}</em><span>{{item.time}}</span></li>
-								<li v-if="activeListIndex > 0" v-for="item in newsList"><em>{{item.title}}</em><span>{{item.time}}</span></li>
+								<li v-for="item in managementData.newsList"><em>{{item.title}}</em><span>{{item.time}}</span></li>
+								<li v-if="activeListIndex > 0" v-for="item in managementData.newsList"><em>{{item.title}}</em><span>{{item.time}}</span></li>
 							</ul>
 						</div>
 					</div>
@@ -72,15 +72,15 @@
 								<div class="top__alarm__item__bottom">
 									<div class="clearfix">
 										<span>高高报警次数</span>
-										<em><b>2</b>次</em>
+										<em><b>{{ managementData.alarm.t_time1 }}</b>次</em>
 									</div>
 									<div class="clearfix">
 										<span>高报警次数</span>
-										<em><b>16</b>次</em>
+										<em><b>{{ managementData.alarm.t_time2 }}</b>次</em>
 									</div>
 									<div class="clearfix">
 										<span>低报警次数</span>
-										<em><b>32</b>次</em>
+										<em><b>{{ managementData.alarm.t_time3 }}</b>次</em>
 									</div>
 								</div>
 								
@@ -93,15 +93,15 @@
 								<div class="top__alarm__item__bottom">
 									<div class="clearfix">
 										<span>高高报警次数</span>
-										<em><b>2</b>次</em>
+										<em><b>{{ managementData.alarm.p_time1 }}</b>次</em>
 									</div>
 									<div class="clearfix">
 										<span>高报警次数</span>
-										<em><b>16</b>次</em>
+										<em><b>{{ managementData.alarm.p_time2 }}</b>次</em>
 									</div>
 									<div class="clearfix">
 										<span>低报警次数</span>
-										<em><b>32</b>次</em>
+										<em><b>{{ managementData.alarm.p_time3 }}</b>次</em>
 									</div>
 								</div>
 								
@@ -129,35 +129,16 @@
 	</div>
 </template>
 <script>
-	import rem 				from '@/services/rem';
-	import format 		from '@/services/format';
-	import api        from '@/api/api';
+	import rem 							from '@/services/rem';
+	import format 					from '@/services/format';
+	import api        			from '@/api/api';
+	import managementData   from '@/mock-data/management-data';
 	export default {
 		data() {
 			return {
 				currentTime: '',
 				activeListIndex: 0,
-				newsList: [
-					{
-						title: 'XXXXX部门排查出隐患121个',
-						time: '2020-11-02'
-					},{
-						title: 'XXXXXXXXXX部门排查出隐患11个',
-						time: '2020-11-01'
-					},{
-						title: 'XXX部门排查出隐患12个',
-						time: '2020-11-01'
-					},{
-						title: 'XXXXXXX部门排查出隐患31个',
-						time: '2020-10-24'
-					},{
-						title: 'XXXXXX部门排查出隐患25个',
-						time: '2020-10-23'
-					},{
-						title: 'XXXXX部门排查出隐患34个',
-						time: '2020-10-02'
-					},
-				],
+				managementData: managementData,
 				newsScrollTimer: null,		// 新闻滚动定时器
 				equipmentInfo: {},
 			}
@@ -205,7 +186,6 @@
             	}
             })
             this.equipmentInfo = rep.result;
-            console.log(this.equipmentInfo)
           })
           .catch(err => console.log('err'))
 			},
@@ -219,7 +199,7 @@
 			newsScrollUp() {
 				this.newsScrollTimer = setInterval(() => {
 					// console.log(this.activeListIndex)
-	        if (this.activeListIndex < this.newsList.length) {
+	        if (this.activeListIndex < this.managementData.newsList.length) {
 	          this.activeListIndex += 1;
 	        }else {
 	        	setTimeout(() => {
@@ -246,13 +226,17 @@
 				let electricChart = this.$echarts.init(this.$refs.electricChart);
 				// 年度营收走势
 				let revenueChart = this.$echarts.init(this.$refs.revenueChart);
-				// 占比图
-        pieChart.setOption({
-       //   	tooltip: {
-		     //    trigger: 'item',
-		     //    formatter: '{a} <br/>{b}: {c} ({d}%)'
-			    // },
 
+
+				// 占比图
+				// 处理数据
+				let pieData = managementData.plantProduction.map((it) => {
+					return {
+						value: it.sum,
+						name: it.plant
+					}
+				});
+        pieChart.setOption({
 			    color: ['#fd895b', '#fed130', '#27e9cb', '#1fb5fc', '#236bd7', '#9456fb', '#fc5659'],
 			    textStyle: {
             fontSize: 14,
@@ -263,19 +247,7 @@
 	            name: '收入占比',
 	            type: 'pie',
 	            radius: ['40%', '55%'],
-	            data: [
-                {value: 835, name: 'A车间',},
-                {value: 1010, name: 'B车间'},
-                {value: 234, name: 'C车间'},
-                {value: 135, name: 'D车间'},
-                {value: 148, name: 'E车间'},
-                {value: 251, name: 'F车间'},
-                {value: 647, name: 'G车间'},
-	            ],
-	            // label: {
-	            //   show: false,
-	            //   position: 'center',
-	            // },
+	            data: pieData,
        				emphasis: {
                 label: {
                   show: true,
@@ -284,11 +256,11 @@
                   fontWeight: 'bold'
                 }
             	},
-
 		        }
 			    ]
         });
         // 温度报警
+        let temperature = managementData.alarm.temperature;
         temperatureAlarm.setOption({
         	title: {
 		        text: '温度报警指数',
@@ -297,7 +269,6 @@
 		        textStyle: {
 			        color: '#ffffff',
 			        fontSize: 14,
-			        
 				    },
 			    },
         	series: [
@@ -325,7 +296,7 @@
 	            color: ['#fcb223', 'rgba(126, 130, 140, .5)'],
 	            data: [
 	              {
-	              	value: 585, 
+	              	value: temperature, 
 	              	label:{
 	                  normal:{
 	                    show:true
@@ -333,7 +304,7 @@
 	                }
 	              },
 	              {
-	              	value: 748, 
+	              	value: 100 - temperature, 
 	              	emphasis: {
 		                label: {
 	                    show: false,
@@ -345,6 +316,7 @@
 			    ]
         })
         // 压力报警
+        let pressure = managementData.alarm.pressure;
         pressureAlarm.setOption({
     	  	title: {
 		        text: '压力报警指数',
@@ -381,7 +353,7 @@
 	            color: ['#fc5659', 'rgba(126, 130, 140, .5)'],
 	            data: [
 	              {
-	              	value: 865, 
+	              	value: pressure, 
 	              	label:{
 	                  normal:{
 	                    show:true
@@ -389,7 +361,7 @@
 	                }
 	              },
 	              {
-	              	value: 748, 
+	              	value: 100 - pressure, 
 	              	emphasis: {
 		                label: {
 	                    show: false,
