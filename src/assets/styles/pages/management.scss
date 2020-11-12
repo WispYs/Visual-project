@@ -9,7 +9,8 @@ html,body {
 	background: url(~images/manage_bg.png) no-repeat;
 	background-size: cover;
 	overflow: hidden;
-	&__title {
+
+	&-title {
 		position: absolute;
 		top: 0;
 		left: 50%;
@@ -19,6 +20,7 @@ html,body {
 		background: url(~images/manage_head.png) no-repeat;
 		background-size: cover;
 		z-index: 0;
+
 		&__time {
 			position: absolute;
 			top: 0.12rem;
@@ -29,16 +31,18 @@ html,body {
 			font-size: .14rem;
 		}
 	}
-	&__wrapper {
+	&-container {
 		position: relative;
 		margin-top: .7rem;
 		padding: 0 .3rem;
 		z-index: 1;
-		.item__title {
+
+		.item-title {
 			padding-top: 0.12rem;
 			padding-left: 0.1rem;
 			width: 2.2rem;
 			height: 0.28rem;
+
 			p {
 				line-height: 0.28rem;
 				color: #23cefd;
@@ -54,14 +58,24 @@ html,body {
 			display: flex;
 			justify-content: space-between;
 			margin-bottom: .28rem;
+
 			&__item {
 				width: 5.6rem;
 				height: 100%;
+
+				.item-chart {
+					margin: 0 auto;
+					&#pieChart {
+						width: 80%;
+						height: 4rem;
+					}
+				}
 				&.center {
 					flex-grow: 1;
 					display: flex;
 					justify-content: center;
 					align-items: center;
+
 					img {
 						max-width: 100%;
 						max-height: 100%;
@@ -71,15 +85,17 @@ html,body {
 						height: 4.87rem;
 					}
 				}
-				.top__info {
+				.top-info {
 					display: flex;
 					justify-content: space-between;
 					margin-bottom: 0.22rem;
+
 					&__item {
 						width: 2.75rem;
 						height: 1.6rem;
 						background: url(~images/manage_frame1.png) no-repeat;
 						background-size: cover;
+
 						dl {
 							color: #fff;
 							dt {
@@ -124,27 +140,30 @@ html,body {
 						}
 					}
 				}
-				.top__percent {
+				.top-percent {
 					height: 4.4rem;
 					background: url(~images/manage_frame2.png) no-repeat;
 					background-size: cover;
 				}
-				.top__news {
+				.top-news {
 					height: 1.2rem;
 					margin-bottom: 0.22rem;
 					padding: .25rem;
 					background: url(~images/manage_frame3.png) no-repeat;
 					background-size: cover;
 					position: relative;
+
 					&__list {
 						position: relative;
 						overflow: hidden;
 						height: 100%;
+
 						ul {
 							width: 100%;
 							position: absolute;
 							top: 0;
 							left: 0;
+
 							&.animate {
 								transition: all .5s;
 							}
@@ -155,6 +174,7 @@ html,body {
 								height: .3rem;
 								color: #f5f5f5;
 								font-size: 0.14rem;
+
 								em {
 									float: left;
 									font-style: normal;
@@ -176,15 +196,16 @@ html,body {
 							}
 						}
 					}
-					
 				}
-				.top__alarm {
+				.top-alarm {
 					height: 4.4rem;
 					background: url(~images/manage_frame4.png) no-repeat;
 					background-size: cover;
+
 					&__wrapper {
 						position: relative;
 						overflow: hidden;
+
 						&__bg {
 							position: absolute;
 							top: 0;
@@ -197,6 +218,7 @@ html,body {
 					&__item {
 						float: left;
 						width: 50%;
+
 						&__top {
 
 						}
@@ -242,29 +264,20 @@ html,body {
 						}
 					}
 				}
-				.item__chart {
-					margin: 0 auto;
-					&#pieChart {
-						width: 80%;
-						height: 4rem;
-					}
-				}
-				// .pie__chart {
-				// 	width: 3.5rem;
-				// 	height: 2.4rem;
-				// }
 			}
 		}
 		&__bottom {
 			height: 3.4rem;
 			display: flex;
 			justify-content: space-between;
+
 			&__item {
 				width: 9.2rem;
 				height: 100%;
 				background: url(~images/manage_frame5.png) no-repeat;
 				background-size: cover;
-				.item__chart {
+
+				.item-chart {
 					margin: 0 auto;
 					&#electricChart, &#revenueChart {
 						width: 100%;
@@ -273,7 +286,5 @@ html,body {
 				}
 			}
 		}
-		
-		
 	}
 }

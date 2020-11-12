@@ -48,6 +48,7 @@
 		right: -100px;
 		width: 100px;
 		transition: all .5s;
+
 		&.open {
 			right: -0;
 		}
@@ -59,6 +60,7 @@
 			color: #333;
 			border-top: 1px solid #999;
 			cursor: pointer;
+			
 			&:hover {
 				color: #fff;
 				background: $blue-dark;

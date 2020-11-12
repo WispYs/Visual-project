@@ -1,8 +1,8 @@
 <template>
 	<div class="index" :style="{ left: isToggle?'-100px':'0' }">
-		<div class="index__banner" :style="{height: autoHeight}">
-      <div class="index__banner__container">
-        <el-carousel :height="autoHeight" class="banner__swiper">
+		<div class="index-banner" :style="{height: autoHeight}">
+      <div class="index-banner__swiper">
+        <el-carousel :height="autoHeight" class="swiper-box">
           <el-carousel-item>
             <img src="~images/jt1.png" alt="" />
           </el-carousel-item>
@@ -18,64 +18,64 @@
         </el-carousel>
       </div>
     </div>
-    <div class="index__news">
-      <div class="index__news__wrapper">
-        <i class="ld_left"></i>
-        <p class="ld_left">中船动力集团所属沪东重机有限公司和江苏扬子江船业集团公司签订了2+8台WinGD 7X52DF主机和LNG燃气供应系统建造合同</p>
+    <div class="index-news">
+      <div class="index-news__inner">
+        <i class="ld-left"></i>
+        <p class="ld-left">中船动力集团所属沪东重机有限公司和江苏扬子江船业集团公司签订了2+8台WinGD 7X52DF主机和LNG燃气供应系统建造合同</p>
       </div>
     </div>
-    <div class="index__wrapper index__products">
-      <div class="index__wrapper__title">
+    <div class="index-wrapper index-products">
+      <div class="index-wrapper__title">
         <h2>产品</h2>
         <p>通过图表直观高效的展示数据</p>
       </div>
-      <div class="index__wrapper__containers">
-        <div class="containers__left">
-          <div class="containers__item">
+      <div class="index-wrapper__containers">
+        <div class="containers-left">
+          <div class="containers-item">
             <h4>可视化图表</h4>
             <p>"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
-            <div id="myChart1" ref="myChart1" class="chart__left"></div>
+            <div id="myChart1" ref="myChart1" class="chart-left"></div>
           </div>
         </div>
-        <div class="containers__right">
-          <div class="containers__item">
+        <div class="containers-right">
+          <div class="containers-item">
             <h4>数据源管理</h4>
-            <div class="item__box">
-              <p class="ld_left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
-              <div id="myChart2" ref="myChart2" class="chart__right ld_right"></div>
+            <div class="containers-item__box">
+              <p class="ld-left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
+              <div id="myChart2" ref="myChart2" class="chart-right ld-right"></div>
             </div>
             
           </div>
-          <div class="containers__item">
+          <div class="containers-item">
             <h4>运维监控系统</h4>
-            <div class="item__box">
-              <p class="ld_left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
-              <div id="myChart3" ref="myChart3" style="width: 180px;height: 250px;margin-top: -40px" class="chart__right ld_right"></div>
+            <div class="containers-item__box">
+              <p class="ld-left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
+              <div id="myChart3" ref="myChart3" style="width: 180px;height: 250px;margin-top: -40px" class="chart-right ld-right"></div>
             </div>
           </div>
-          <div class="containers__item">
+          <div class="containers-item">
             <h4>云图管理</h4>
-            <div class="item__box">
-              <p class="ld_left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
-              <div id="myChart4" ref="myChart4" style="width: 180px;height: 250px;margin-top: -40px" class="chart__right ld_right"></div>
+            <div class="containers-item__box">
+              <p class="ld-left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
+              <div id="myChart4" ref="myChart4" style="width: 180px;height: 250px;margin-top: -40px" class="chart-right ld-right"></div>
             </div>
           </div>
-          <div class="containers__item">
+          <div class="containers-item">
             <h4>实时动态更新</h4>
-           <div class="item__box">
-              <p class="ld_left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
-              <div id="myChart5" ref="myChart5" class="chart__right ld_right"></div>
+           <div class="containers-item__box">
+              <p class="ld-left">"数据可视化"可以帮助用户理解数据，一直是热门方向。图表是"数据可视化"的常用手段，其中又以基本图表----柱状图、折线图、饼图等等----最为常用。</p>
+              <div id="myChart5" ref="myChart5" class="chart-right ld-right"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="index__wrapper index__service">
-      <div class="index__wrapper__title">
+    <div class="index-wrapper index-service">
+      <div class="index-wrapper__title">
         <h2>技术服务</h2>
         <p>全方位高品质的项目开发服务 为企业智能化提速</p>
       </div>
-      <div class="index__wrapper__containers">
+      <div class="index-wrapper__containers">
         <ul>
           <li>
             <a target="_blank" href="#">
@@ -122,15 +122,15 @@
             </a>
           </li>
         </ul>
-        <div class="more__btn">查看更多</div>
+        <div class="more-btn">查看更多</div>
       </div>
     </div>
-    <div class="index__wrapper index__cases">
-      <div class="index__wrapper__title">
+    <div class="index-wrapper index-cases">
+      <div class="index-wrapper__title">
         <h2>可视化案例</h2>
         <p>对海量丰富的数据内容进行清洗、计算、挖掘，得到具有专业价值的数据结果</p>
       </div>
-      <div class="index__wrapper__containers">
+      <div class="index-wrapper__containers">
         <ul>
           <li>
             <img src="~images/case1.png" alt="" />
@@ -171,10 +171,23 @@
       })
     },
     mounted() {
-      this.drawLine();
+      this.$nextTick(() => {
+        this.drawLine();
+      });
       this.setAutoHeight();
       window.addEventListener('resize', () => {
         this.setAutoHeight();
+
+        let myChart1 = this.$echarts.init(this.$refs.myChart1);
+        let myChart2 = this.$echarts.init(this.$refs.myChart2);
+        let myChart3 = this.$echarts.init(this.$refs.myChart3);
+        let myChart4 = this.$echarts.init(this.$refs.myChart4);
+        let myChart5 = this.$echarts.init(this.$refs.myChart5);
+        myChart1.resize();
+        myChart2.resize();
+        myChart3.resize();
+        myChart4.resize();
+        myChart5.resize();
       }, false)
     },
     methods: {
@@ -334,6 +347,6 @@
   @import '~styles/base/variable';
   @import '~styles/mixins/clearfix';
   @import '~styles/pages/index';
-  // @import '~styles/adaptive';
+  @import '~styles/adaptive';
   
 </style>

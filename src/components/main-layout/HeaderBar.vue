@@ -1,10 +1,10 @@
 <template>
   <div class="header">
-    <div class="header__top">
-      <!-- <img class="header__logo ld_left" src="~images/logo.jpg" alt=""> -->
-      <h1 class="ld_left">XX车间智能运维平台</h1>
-      <div class="header__right ld_right">
-        <div class="header__search ld_left">
+    <div class="header-top">
+      <!-- <img class="header__logo ld-left" src="~images/logo.jpg" alt=""> -->
+      <h1 class="ld-left">XX车间智能运维平台</h1>
+      <div class="header-top__right ld-right">
+        <div class="header-search ld-left">
           <el-input
             suffix-icon="el-icon-search"
             style="border: 0!important;"
@@ -13,25 +13,25 @@
           </el-input>
         </div>
         <div 
-          class="header__login ld_right" 
+          class="header-login ld-right" 
           @click="$router.push({
             name: 'login'
           })">
           登录
         </div>
-        <div class="header__phone ld_right">
+        <div class="header-phone ld-right">
           全国服务热线：
           <span>+86 13333333333</span>
         </div>
       </div>
       <div 
-        :class="isToggle ? 'header__menu open ld_right' : 'header__menu ld_right'"
+        :class="isToggle ? 'header-menu open ld-right' : 'header-menu ld-right'"
         @click="toggleNav()">
         <img src="~images/menu.png" alt="">
       </div>
     </div>
-    <div class="header__nav">
-      <ul class="header__nav__list">
+    <div class="header-nav">
+      <ul class="header-nav__list">
         <li>
           <a href="#">首页</a>
         </li>
@@ -59,12 +59,6 @@
         <li style="width: 100px;">
           <a href="javascript:;">系统维护</a>
         </li>
-        <!-- <li>
-          <a href="#">营销网络</a>
-        </li>
-        <li>
-          <a href="#">联系我们</a>
-        </li> -->
         <li>
           <a href="javascript:;">关于我们</a>
         </li>
@@ -107,7 +101,8 @@
     overflow: hidden;
     transition: all .5s;
     z-index: 9999;
-    &__top {
+
+    &-top {
       @include clearfix;
       width: 1000px;
       height: 88px;
@@ -118,11 +113,12 @@
         line-height: 88px;
         color: #fff;
       }
+      &__right {
+        @include clearfix;
+      }
     }
-    &__right {
-      @include clearfix;
-    }
-    &__menu {
+    
+    &-menu {
       display: none;
       position: absolute;
       top: 50%;
@@ -142,18 +138,18 @@
         right: 30px;
       }
     }
-    &__search {
+    &-search {
       position: relative;
       margin-top: 24px;
       padding-right: 24px;
     }
-    &__login {
+    &-login {
       color: #fff;
       line-height: 106px;
       margin-left: 25px;
       cursor: pointer;
     }
-    &__phone {
+    &-phone {
       color: #ffffff;
       font-size: 14px;
       line-height: 20px;
@@ -166,7 +162,7 @@
         font-family: impact;
       }
     }
-    &__nav {
+    &-nav {
       position: relative;
       width: 100%;
       height: 43px;

@@ -1,16 +1,16 @@
 <template>
 	<div class="management">
-		<div class="management__title"
+		<div class="management-title"
 			@click="$router.push({
 				name: 'index'
 			})">
-			<p class="management__title__time">{{currentTime}}</p>
+			<p class="management-title__time">{{currentTime}}</p>
 		</div>
-		<div class="management__wrapper">
-			<div class="management__wrapper__top">
-				<div class="management__wrapper__top__item">
-					<div class="top__info">
-						<div class="top__info__item">
+		<div class="management-container">
+			<div class="management-container__top">
+				<div class="management-container__top__item">
+					<div class="top-info">
+						<div class="top-info__item">
 							<dl>
 								<dt>
 									<h4>2065</h4>
@@ -22,7 +22,7 @@
 								</dd>
 							</dl>
 						</div>
-						<div class="top__info__item">
+						<div class="top-info__item">
 							<dl>
 								<dt>
 									<h4>1503</h4>
@@ -35,20 +35,20 @@
 							</dl>
 						</div>
 					</div>
-					<div class="top__percent">
-						<div class="item__title">
+					<div class="top-percent">
+						<div class="item-title">
 							<p>各车间产出占比</p>
 						</div>
-						<div id="pieChart" ref="pieChart" class="item__chart"></div>
+						<div id="pieChart" ref="pieChart" class="item-chart"></div>
 					</div>
 				</div>
-				<div class="management__wrapper__top__item center">
+				<div class="management-container__top__item center">
 					<img class="earth" src="~images/earth.png" alt="">
 					
 				</div>
-				<div class="management__wrapper__top__item">
-					<div class="top__news">
-						<div class="top__news__list">
+				<div class="management-container__top__item">
+					<div class="top-news">
+						<div class="top-news__list">
 							<ul
 								:class="activeListIndex == 0? '': 'animate'"
 								id="newsList" 
@@ -60,16 +60,16 @@
 							</ul>
 						</div>
 					</div>
-					<div class="top__alarm">
-						<div class="item__title">
+					<div class="top-alarm">
+						<div class="item-title">
 							<p>公司风险评估</p>
 						</div>
-						<div class="top__alarm__wrapper">
-							<div class="top__alarm__item">
-								<div class="top__alarm__item__top">
-									<div id="temperatureAlarm" ref="temperatureAlarm" class="top__alarm__item__chart"></div>
+						<div class="top-alarm__wrapper">
+							<div class="top-alarm__item">
+								<div class="top-alarm__item__top">
+									<div id="temperatureAlarm" ref="temperatureAlarm" class="top-alarm__item__chart"></div>
 								</div>
-								<div class="top__alarm__item__bottom">
+								<div class="top-alarm__item__bottom">
 									<div class="clearfix">
 										<span>高高报警次数</span>
 										<em><b>{{ managementData.alarm.t_time1 }}</b>次</em>
@@ -85,12 +85,12 @@
 								</div>
 								
 							</div>
-							<img class="top__alarm__wrapper__bg" src="~images/manage_line_icon.png" alt="">
-							<div class="top__alarm__item">
-								<div class="top__alarm__item__top">
-									<div id="pressureAlarm" ref="pressureAlarm" class="top__alarm__item__chart"></div>
+							<img class="top-alarm__wrapper__bg" src="~images/manage_line_icon.png" alt="">
+							<div class="top-alarm__item">
+								<div class="top-alarm__item__top">
+									<div id="pressureAlarm" ref="pressureAlarm" class="top-alarm__item__chart"></div>
 								</div>
-								<div class="top__alarm__item__bottom">
+								<div class="top-alarm__item__bottom">
 									<div class="clearfix">
 										<span>高高报警次数</span>
 										<em><b>{{ managementData.alarm.p_time1 }}</b>次</em>
@@ -111,18 +111,18 @@
 					
 				</div>
 			</div>
-			<div class="management__wrapper__bottom">
-				<div class="management__wrapper__bottom__item">
-					<div class="item__title">
+			<div class="management-container__bottom">
+				<div class="management-container__bottom__item">
+					<div class="item-title">
 						<p>设备用电量</p>
 					</div>
-					<div id="electricChart" ref="electricChart" class="item__chart"></div>
+					<div id="electricChart" ref="electricChart" class="item-chart"></div>
 				</div>
-				<div class="management__wrapper__bottom__item">
-					<div class="item__title">
+				<div class="management-container__bottom__item">
+					<div class="item-title">
 						<p>年度营收走势</p>
 					</div>
-					<div id="revenueChart" ref="revenueChart" class="item__chart"></div>
+					<div id="revenueChart" ref="revenueChart" class="item-chart"></div>
 				</div>
 			</div>
 		</div>
