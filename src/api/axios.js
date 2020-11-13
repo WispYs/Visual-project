@@ -12,7 +12,7 @@ axiosVisual.interceptors.request.use(
 });
 
 axiosVisual.interceptors.response.use(
-  rep => (rep.data.code == 200) ? rep.data : Promise.reject(rep.data.message),
+  rep => (rep.data.code == 20000) ? rep.data : Promise.reject(rep.data.message),
   err => Promise.reject(err.toString())
 );
 

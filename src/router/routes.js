@@ -24,6 +24,14 @@ export default [
     }
   },
   {
+    path: '/energy',
+    name: 'energy',
+    component: resolve => require.ensure([], () => resolve(require('@/pages/Energy')), 'energy'),
+    meta: {
+      keepAlive : false
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: resolve => require.ensure([], () => resolve(require('@/pages/Login')), 'login'),

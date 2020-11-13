@@ -43,7 +43,43 @@
 					</div>
 				</div>
 				<div class="management-container__top__item center">
-					<img class="earth" src="~images/earth.png" alt="">
+					<div class="equiment-container">
+						<div class="equiment-title">
+							<div class="equiment-title__item">
+								<div>
+									<img src="~images/info_icon6.png" alt="">
+									<span>月用电量</span>
+								</div>
+								<p class="yellow">{{ equipmentBaseInfo.monthElectrical || 0 }}<em>kw</em></p>
+							</div>
+							<div class="equiment-title__item">
+								<div>
+									<img src="~images/info_icon7.png" alt="">
+									<span>月用水量</span>
+								</div>
+								<p class="blue">{{ equipmentBaseInfo.monthWater || 0 }}<em>m³</em></p>
+							</div>
+							<div class="equiment-title__item">
+								<div>
+									<img src="~images/info_icon8.png" alt="">
+									<span>月用气量</span>
+								</div>
+								<p class="red">{{ equipmentBaseInfo.monthAir || 0 }}<em>m³</em></p>
+							</div>
+						</div>
+						<div class="equiment-content">
+							<img src="~images/equipment2.png" alt="">
+							<div class="equiment-content__dialog green">
+								<h4>总运行时间</h4>
+								<p>{{ equipmentBaseInfo.runTime || 0 }}小时</p>
+							</div>
+							<div class="equiment-content__dialog orange">
+								<h4>KPI 指标</h4>
+								<p>{{ equipmentBaseInfo.kpi || 0 }}</p>
+							</div>
+							<!-- <img class="earth" src="~images/earth.png" alt=""> -->
+						</div>
+					</div>
 					
 				</div>
 				<div class="management-container__top__item">
@@ -141,6 +177,11 @@
 				managementData: managementData,
 				newsScrollTimer: null,		// 新闻滚动定时器
 				equipmentInfo: {},
+				temperatureArr: [],			// 喷砂间房间温度
+				humidityArr: [],				// 喷砂间房间湿度
+				smokescopeArr: [],			// 喷漆间漆雾浓度
+				inserTimeArr: [],				// 添加时间
+				equipmentBaseInfo: {},		// 基本设备信息
 			}
 		},
 		created() {
@@ -148,9 +189,9 @@
 			this.__fetchEquipmentInfo();
 		},
 		mounted() {
-			this.$nextTick(() => {
-	      this.drawLine();
-	    });
+			  		// this.$nextTick(() => {
+						 //      this.drawLine();
+						 //    });
 			this.getCurrentTime();
 			window.addEventListener('resize',() => {
 				let pieChart = this.$echarts.init(this.$refs.pieChart);
@@ -173,23 +214,53 @@
 		},
 		methods: {
 			__fetchEquipmentInfo() {
-				let data = {
-					page: 1,
-					count: 2,
-					type: 'video'
-				};
-        api.fetchEquipmentInfo(data)
+        api.fetchEquipmentInfo()
           .then(rep => {
-            rep.result.forEach((it) => {
+          	// `id`  '主键id',
+					  // `psTt1` '喷砂间房间温度',
+					  // `psTh1` '喷砂间房间湿度',
+					  // `psCo2` '喷漆间漆雾浓度',
+					  // `psPt1`  '喷砂间压缩空气压力',
+					  // `psQsj1Runtime`  '1号去湿机运行时长',
+					  // `psKpi`  'kpi指标',
+					  // `psElectrical`  '月用电能耗',
+					  // `psWater`  '月用水能耗',
+					  // `psAir`  '月用气能耗',
+					  // `psInsertime`  '添加时间',
+
+            let latestInfo = rep.data.slice(-1)[0],			// 取最新的设备信息			
+            		equipmentBaseInfo = {
+		            	monthElectrical: Math.round(latestInfo.psElectrical / 1000),
+		            	monthWater: Math.round(latestInfo.psWater),
+		            	monthAir: Math.round(latestInfo.psAir),
+		            	runTime: Number(latestInfo.Qsj1Runtime) / 3600,
+		            	kpi: Math.round(latestInfo.psKpi),
+		            },																			// 设备基本信息
+            		equipmentArr = rep.data.slice(-10);			// 设备段时间内数据信息
+
+            this.equipmentBaseInfo = equipmentBaseInfo;
+            // 获取最近的十条数据
+            equipmentArr.forEach((it) => {
             	for(let key in it) {
-            		if(key != 'name' && key != 'text' && key != 'passtime') {
-            			delete it[key];
+            		if(key == 'psTt1') {
+            			this.temperatureArr.push(Number(it[key]).toFixed(2));
+            		}
+            		if(key == 'psTh1') {
+            			this.humidityArr.push(Number(it[key]).toFixed(2));
+            		}
+            		if(key == 'psCo2') {
+            			this.smokescopeArr.push(Number(it[key]).toFixed(2));
+            		}
+            		if(key == 'psInsertime') {
+            			this.inserTimeArr.push(it[key].split(' ')[0]);
             		}
             	}
             })
-            this.equipmentInfo = rep.result;
+        		this.drawLine();
+       			
+
           })
-          .catch(err => console.log('err'))
+          .catch(err => this.$message.error('获取信息失败'))
 			},
 			// 当前时间
 			getCurrentTime() {
@@ -316,7 +387,7 @@
 	            ]
 		        }
 			    ]
-        })
+        });
         // 压力报警
         let pressure = managementData.alarm.pressure;
         pressureAlarm.setOption({
@@ -373,7 +444,7 @@
 	            ]
 		        }
 			    ]
-        })
+        });
         // 用电量
         electricChart.setOption({
         	legend: {
@@ -453,9 +524,9 @@
 	            fontWeight: 'bold'
 		        },
 			    },
-			    color: ['#27e9cb', '#fc5659'],
+			    color: ['#27e9cb', '#fc5659', '#3db6fc'],
 			    legend: {
-		        data: ['收入', '支出'],
+		        data: ['温度', '湿度', '浓度'],
 		        textStyle : {
 	            color: '#fff',
             	fontSize: 12,
@@ -475,7 +546,7 @@
                 color: '#fff'
               }
             },
-		        data: ['2015', '2016', '2017', '2018', '2019', '2020']
+		        data: this.inserTimeArr
 			    },
 			    yAxis: {
 		        type: 'value',
@@ -489,17 +560,22 @@
 			    },
 			    series: [
 		        {
-	            name: '收入',
+	            name: '温度',
 	            type: 'line',
-	            data: [220, 232, 320, 262, 420, 330]
+	            data: this.temperatureArr
 		        },
 		        {
-	            name: '支出',
+	            name: '湿度',
 	            type: 'line',
-	            data: [100, 110, 152, 134, 160, 125]
+	            data: this.humidityArr
+		        },
+		        {
+	            name: '浓度',
+	            type: 'line',
+	            data: this.smokescopeArr
 		        },
 			    ]
-	      })
+	      });
 			}
 		}
 	}
