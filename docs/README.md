@@ -5,8 +5,8 @@
   * [命名规范](#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83)
     * [1\. 项目命名](#1-%E9%A1%B9%E7%9B%AE%E5%91%BD%E5%90%8D)
     * [2\. 目录命名](#2-%E7%9B%AE%E5%BD%95%E5%91%BD%E5%90%8D)
-    * [3\. Javascript 变量、方法命名采用小驼峰式命名法](#3-javascript-%E5%8F%98%E9%87%8F%E6%96%B9%E6%B3%95%E5%91%BD%E5%90%8D%E9%87%87%E7%94%A8%E5%B0%8F%E9%A9%BC%E5%B3%B0%E5%BC%8F%E5%91%BD%E5%90%8D%E6%B3%95)
-    * [4\. Css 命名参考BEM命名规范](#4-css-%E5%91%BD%E5%90%8D%E5%8F%82%E8%80%83bem%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83)
+    * [3\. Javascript 命名](#3-javascript-%E5%91%BD%E5%90%8D)
+    * [4\. Css 命名](#4-css-%E5%91%BD%E5%90%8D)
   * [HTML规范](#html%E8%A7%84%E8%8C%83)
   * [Css规范](#css%E8%A7%84%E8%8C%83)
   * [JavaScript 规范](#javascript-%E8%A7%84%E8%8C%83)
@@ -38,12 +38,16 @@
 > 例：assets, pages, styles, components 等
 
 
-#### 3. Javascript 变量、方法命名采用小驼峰式命名法 ####
+#### 3. Javascript 命名 ####
+
+Javascript 变量、方法采用小驼峰式命名法
 
 > 例：pageIndex 、 getInfo 等
 
 
-#### 4. Css 命名参考BEM命名规范 ####
+#### 4. Css 命名 ####
+
+参考BEM命名规范
 
 > 标准的 BEM 写法： .block-name__element-name--modifier-name
 
