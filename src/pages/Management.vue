@@ -233,7 +233,7 @@
 		            	monthElectrical: Math.round(latestInfo.psElectrical / 1000),
 		            	monthWater: Math.round(latestInfo.psWater),
 		            	monthAir: Math.round(latestInfo.psAir),
-		            	runTime: Number(latestInfo.Qsj1Runtime) / 3600,
+		            	runTime: (Number(latestInfo.psQsj1Runtime) / 3600).toFixed(2),
 		            	kpi: Math.round(latestInfo.psKpi),
 		            },																			// 设备基本信息
             		equipmentArr = rep.data.slice(-10);			// 设备段时间内数据信息
@@ -257,17 +257,17 @@
             	}
             })
         		this.drawLine();
-       			
-
           })
           .catch(err => this.$message.error('获取信息失败'))
 			},
+
 			// 当前时间
 			getCurrentTime() {
 				let timer = setInterval(() => {
 					this.currentTime = format.getDateTime(new Date().getTime());
 				}, 1000);
 			},
+
 			// 新闻资讯滚动
 			newsScrollUp() {
 				this.newsScrollTimer = setInterval(() => {
@@ -281,12 +281,14 @@
 	        };
 	      }, 3000);
 			},
+
 			scrollEnd () {
 	      clearInterval(this.newsScrollTimer);
 	    },
 	    scrollStart () {
 	      this.newsScrollUp();
 	    },
+	    
 	    // ECharts
 			drawLine () {
 				// 车间收入产出占比
