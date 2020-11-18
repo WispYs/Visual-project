@@ -185,27 +185,29 @@
 			}
 		},
 		created() {
+			this.getCurrentTime();
 			this.newsScrollUp();
-			this.__fetchEquipmentInfo();
+			
 		},
 		mounted() {
-			  		// this.$nextTick(() => {
-						 //      this.drawLine();
-						 //    });
-			this.getCurrentTime();
-			window.addEventListener('resize',() => {
-				let pieChart = this.$echarts.init(this.$refs.pieChart);
-				let temperatureAlarm = this.$echarts.init(this.$refs.temperatureAlarm);
-				let pressureAlarm = this.$echarts.init(this.$refs.pressureAlarm);
-				let electricChart = this.$echarts.init(this.$refs.electricChart);
-				let revenueChart = this.$echarts.init(this.$refs.revenueChart);
+			this.__fetchEquipmentInfo().then(() => {
+				// 等待数据更新后加载 ECharts 组件
+	      this.drawLine();
+			});
+  		// this.$nextTick(() => {
+	   //    this.drawLine();
+	   //  });
 
-				pieChart.resize();
-				temperatureAlarm.resize();
-				pressureAlarm.resize();
-				electricChart.resize();
-				revenueChart.resize();
-			})
+			// 监听窗口变化重绘 EChart 组件
+			window.addEventListener('resize', this.initEchart, true);
+
+			// 定时请求接口数据
+			// const dataTimer = setInterval(() => {
+			// 	this.__fetchEquipmentInfo();
+			// }, 5000);
+			// this.$once('hook:beforeDestroy', () => {
+			// 	clearInterval(dataTimer);
+			// });
 		},
 		computed: {
 			newsListTop() {
@@ -213,20 +215,11 @@
 			}
 		},
 		methods: {
+			// 获取设备信息
 			__fetchEquipmentInfo() {
-        api.fetchEquipmentInfo()
+				return new Promise((resolve, reject) => {
+					api.fetchEquipmentInfo()
           .then(rep => {
-          	// `id`  '主键id',
-					  // `psTt1` '喷砂间房间温度',
-					  // `psTh1` '喷砂间房间湿度',
-					  // `psCo2` '喷漆间漆雾浓度',
-					  // `psPt1`  '喷砂间压缩空气压力',
-					  // `psQsj1Runtime`  '1号去湿机运行时长',
-					  // `psKpi`  'kpi指标',
-					  // `psElectrical`  '月用电能耗',
-					  // `psWater`  '月用水能耗',
-					  // `psAir`  '月用气能耗',
-					  // `psInsertime`  '添加时间',
 
             let latestInfo = rep.data.slice(-1)[0],			// 取最新的设备信息			
             		equipmentBaseInfo = {
@@ -234,7 +227,7 @@
 		            	monthWater: Math.round(latestInfo.psWater),
 		            	monthAir: Math.round(latestInfo.psAir),
 		            	runTime: (Number(latestInfo.psQsj1Runtime) / 3600).toFixed(2),
-		            	kpi: Math.round(latestInfo.psKpi),
+		            	kpi: Math.round(latestInfo.psKpi) + this.activeListIndex,
 		            },																			// 设备基本信息
             		equipmentArr = rep.data.slice(-10);			// 设备段时间内数据信息
 
@@ -255,41 +248,25 @@
             			this.inserTimeArr.push(it[key].split(' ')[0]);
             		}
             	}
-            })
-        		this.drawLine();
+            });
+            resolve(rep);
+            // `id`  '主键id',
+					  // `psTt1` '喷砂间房间温度',
+					  // `psTh1` '喷砂间房间湿度',
+					  // `psCo2` '喷漆间漆雾浓度',
+					  // `psPt1`  '喷砂间压缩空气压力',
+					  // `psQsj1Runtime`  '1号去湿机运行时长',
+					  // `psKpi`  'kpi指标',
+					  // `psElectrical`  '月用电能耗',
+					  // `psWater`  '月用水能耗',
+					  // `psAir`  '月用气能耗',
+					  // `psInsertime`  '添加时间',
           })
           .catch(err => this.$message.error('获取信息失败'))
+				}) 
 			},
 
-			// 当前时间
-			getCurrentTime() {
-				let timer = setInterval(() => {
-					this.currentTime = format.getDateTime(new Date().getTime());
-				}, 1000);
-			},
-
-			// 新闻资讯滚动
-			newsScrollUp() {
-				this.newsScrollTimer = setInterval(() => {
-					// console.log(this.activeListIndex)
-	        if (this.activeListIndex < this.managementData.newsList.length) {
-	          this.activeListIndex += 1;
-	        }else {
-	        	setTimeout(() => {
-	        		this.activeListIndex = 0;
-	        	},500)
-	        };
-	      }, 3000);
-			},
-
-			scrollEnd () {
-	      clearInterval(this.newsScrollTimer);
-	    },
-	    scrollStart () {
-	      this.newsScrollUp();
-	    },
-	    
-	    // ECharts
+			// ECharts 组件绘制
 			drawLine () {
 				// 车间收入产出占比
 				let pieChart = this.$echarts.init(this.$refs.pieChart);
@@ -301,7 +278,6 @@
 				let electricChart = this.$echarts.init(this.$refs.electricChart);
 				// 年度营收走势
 				let revenueChart = this.$echarts.init(this.$refs.revenueChart);
-
 
 				// 占比图
 				// 处理数据
@@ -578,7 +554,62 @@
 		        },
 			    ]
 	      });
-			}
+			},
+
+			// ECharts 组件初始化
+			initEchart() {
+				let pieChart = this.$echarts.init(this.$refs.pieChart);
+				let temperatureAlarm = this.$echarts.init(this.$refs.temperatureAlarm);
+				let pressureAlarm = this.$echarts.init(this.$refs.pressureAlarm);
+				let electricChart = this.$echarts.init(this.$refs.electricChart);
+				let revenueChart = this.$echarts.init(this.$refs.revenueChart);
+
+	      pieChart.resize();
+				temperatureAlarm.resize();
+				pressureAlarm.resize();
+				electricChart.resize();
+				revenueChart.resize();
+			},
+
+			// 时间定时器
+			getCurrentTime() {
+				const timer = setInterval(() => {
+					this.currentTime = format.getDateTime(new Date().getTime());
+				}, 1000);
+
+				this.$once('hook:beforeDestroy', () => {
+					clearInterval(timer);
+				});
+			},
+
+			// 新闻资讯滚动
+			newsScrollUp() {
+				this.newsScrollTimer = setInterval(() => {
+					// console.log(this.activeListIndex)
+	        if (this.activeListIndex < this.managementData.newsList.length) {
+	          this.activeListIndex += 1;
+	        }else {
+	        	setTimeout(() => {
+	        		this.activeListIndex = 0;
+	        	},500)
+	        };
+	      }, 3000);
+
+	      this.$once('hook:beforeDestroy', () => {
+	      	clearInterval(this.newsScrollTimer);
+	      });
+			},
+			scrollEnd () {
+	      clearInterval(this.newsScrollTimer);
+	    },
+	    scrollStart () {
+	      this.newsScrollUp();
+	    },
+	    
+	    
+		},
+		beforeDestroy() {
+			window.removeEventListener('resize', this.initEchart, true);
 		}
 	}
 </script>
